@@ -26,9 +26,26 @@ app.get("/api/hello", function (req, res) {
 
 // unix date
 app.get("/api/:date?",(req,res) => {
-  const timedate = req.params;
-  const convDate = new Date(parseInt(timedate.date));
-  res.json({unix: parseInt(timedate.date), utc: convDate.toUTCString()})
+  const date_string = req.params.date;
+  // const current_date = new Date();
+  let date;
+
+  if (!date_string) {
+    date = new Date();
+  } else {
+    // cek input berupa unix
+    const isUnix = !isNaN(date_string)&&/^\d+$/.test(date_string);
+    date = isUnix ? new Date(parseInt(date_string)) : new Date(date_string)
+  }
+
+  // validasi data kosong
+  if(isNaN(date)){
+      res.json({error: 'Invalid Date'});
+    }
+
+  
+    res.json({unix: date.getTime(), utc: date.toUTCString()});    
+  
 })
 
 // utc date
