@@ -24,6 +24,18 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+// unix date
+app.get("/api/:date?",(req,res) => {
+  const timedate = req.params;
+  const convDate = new Date(parseInt(timedate.date));
+  res.json({unix: parseInt(timedate.date), utc: convDate.toUTCString()})
+})
+
+// utc date
+// app.get("api/2015-12-25",(req,res) => {
+//   const date = new Date('2015-12-25')
+//   res.json({unix: date.parse(), utc: date.toUTCString()})
+// })
 
 
 // Listen on port set in environment variable or default to 3000
